@@ -51,10 +51,7 @@ export class GestorTareas {
         localStorage.setItem("misTareas", JSON.stringify(this.tareas));
     }
 
-}
-
 // Método para simular una carga de datos externa
-
 cargarTareasFalsas() {
     //Retornamos una nueva promesa 
     
@@ -63,7 +60,7 @@ cargarTareasFalsas() {
 
         //Usamos setTimeour para simular el retraso de 2 segundos
         setTimeout(() => {
-             
+
         //Simulamos que todo salio bien
         const exito = true;
 
@@ -83,4 +80,5 @@ cargarTareasFalsas() {
         }, 2000); // 2 segundos);
     });
 
+}
 }
