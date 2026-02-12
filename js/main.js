@@ -1,7 +1,11 @@
 import { GestorTareas } from "./classes/GestorTareas.js";
 
+//==========================================
 // GESTOR DE TAREAS
+//==========================================
+
 const gestor = new GestorTareas();
+renderizarTareas();
 
 //==========================================
 // REFERENCIAS AL DOM
