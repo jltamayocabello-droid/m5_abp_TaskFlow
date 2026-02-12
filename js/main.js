@@ -1,28 +1,23 @@
 import { GestorTareas } from "./classes/GestorTareas.js";
 
 //==========================================
+// REFERENCIAS AL DOM
+//==========================================
+
+//Capturamos los elementos del HTML usando los IDs
+
+const formulario = document.querySelector("#form-tarea");
+const listaTareas = document.querySelector("#lista-tareas");
+const inputTitulo = document.querySelector("#input-titulo");
+const inputDescripcion = document.querySelector("#input-descripcion");
+
+//==========================================
 // GESTOR DE TAREAS
 //==========================================
 
 const gestor = new GestorTareas();
 renderizarTareas();
 
-//==========================================
-// REFERENCIAS AL DOM
-//==========================================
-
-//Capturamos los elementos del HTML usando los IDs
-const formulario = document.querySelector("#form-tarea");
-const inputTitulo = document.querySelector("#input-titulo");
-const inputDescripcion = document.querySelector("#input-descripcion");
-const listaTareas = document.querySelector("#lista-tareas");
-
-//PRUEBA DE CONEXION
-console.log("Elementos DOM capturados:", {
-  formulario,
-  inputTitulo,
-  listaTareas,
-});
 
 //==========================================
 // EVENTOS (La interactividad)
