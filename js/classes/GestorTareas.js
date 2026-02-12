@@ -6,7 +6,7 @@ export class GestorTareas {
         this.tareas = [];
     }
 
-    //Método para agregar una tarea
+    // Método para agregar una tarea
     agregarTarea(titulo, descripcion) {
         // Crear una nueva tarea
         const nuevaTarea = new Tarea(titulo, descripcion);
@@ -18,13 +18,14 @@ export class GestorTareas {
         return nuevaTarea;
     }
 
+    // Método para eliminar una tarea
     eliminarTarea(Id){
         this.tareas = this.tareas.filter(tarea => tarea.id !== Id);
     }
 
+    // Método para alternar el estado de una tarea
     alternarTarea(Id) {
         const tarea = this.tareas.find(tarea => tarea.id === Id);
         tarea.cambiarEstado();  
     }
-    
 }
