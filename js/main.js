@@ -100,3 +100,28 @@ function renderizarTareas() {
 
 });
 }
+
+
+//==========================================
+// LISTA TAREAS (Listener)
+//==========================================
+
+// 
+listaTareas.addEventListener("click", (event) => {
+
+  // Capturamos el ID (ID de li más cercano)
+  const idTarea = Number(event.target.closest("li").id);
+
+  // Hizo clic en el botón eliminar
+  // Borrar tarea
+  if (event.target.classList.contains("btn-eliminar")) {
+    gestor.eliminarTarea(idTarea);
+    renderizarTareas();
+  }
+
+  // Hizo clic en el botón estado
+  if (event.target.classList.contains("btn-estado")) {
+    gestor.alternarTarea(idTarea);
+    renderizarTareas();
+  }
+})
