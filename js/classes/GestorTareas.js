@@ -18,5 +18,13 @@ export class GestorTareas {
         return nuevaTarea;
     }
 
+    eliminarTarea(Id){
+        this.tareas = this.tareas.filter(tarea => tarea.id !== Id);
+    }
 
+    alternarTarea(Id) {
+        const tarea = this.tareas.find(tarea => tarea.id === Id);
+        tarea.cambiarEstado();  
+    }
+    
 }
