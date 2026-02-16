@@ -120,18 +120,20 @@ function renderizarTareas() {
 
 //
 listaTareas.addEventListener("click", (event) => {
-  // Capturamos el ID (ID de li más cercano)
-  const idTarea = Number(event.target.closest("li").id);
+  // Buscamos el elemento padre con la clase 'task-card' (LI)
+  const card = event.target.closest(".task-card");
+  
+  if (!card) return; // Si el clic fue fuera de una tarjeta, ignoramos
+  const idTarea = Number(card.id)
 
-  // Hizo clic en el botón eliminar
-  // Borrar tarea
-  if (event.target.classList.contains("btn-eliminar")) {
+  // Verificamos si el clic fue en el botón de eliminar o en un hijo suyo (icono)
+  if (event.target.closest(".btn-eliminar")) {
     gestor.eliminarTarea(idTarea);
     renderizarTareas();
   }
 
-  // Hizo clic en el botón estado
-  if (event.target.classList.contains("btn-estado")) {
+  // Lo mismo para el estado
+  if (event.target.closest(".btn-estado")) {
     gestor.alternarTarea(idTarea);
     renderizarTareas();
   }
