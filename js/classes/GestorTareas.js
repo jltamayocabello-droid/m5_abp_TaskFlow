@@ -16,7 +16,7 @@ export class GestorTareas {
 
             return tareaRecuperada;
 
-    }) : [];
+        }) : [];
     }
 
     // Método para agregar una tarea
@@ -31,7 +31,7 @@ export class GestorTareas {
     }
 
     // Método para eliminar una tarea
-    eliminarTarea(Id){
+    eliminarTarea(Id) {
         const idNumerico = Number(Id)
         // Sobreescribimos el array filtrando todos los que No tengan ese ID
         this.tareas = this.tareas.filter(tarea => tarea.id !== idNumerico);
@@ -46,7 +46,7 @@ export class GestorTareas {
         if (tarea) {
             tarea.cambiarEstado();
             this.guardar(); // Guardamos cambios
-        } 
+        }
     }
 
     // Método para guardar los cambios
@@ -54,48 +54,61 @@ export class GestorTareas {
         localStorage.setItem("misTareas", JSON.stringify(this.tareas));
     }
 
-//==========================================
-// OBTENER LOS DATOS DE LA API
-//==========================================
+    //==========================================
+    // OBTENER LOS DATOS DE LA API
+    //==========================================
 
-async obtenerTareasExternas() {
-    try {
-        // Petición GET (fetch devuelve una promesa)
-        // Limit=5 para no sobrecargar la API
-        const respuesta = await fetch('https://jsonplaceholder.typicode.com/users?_limit=5');
+    async obtenerTareasExternas() {
+        try {
+            // Verificar si ya se importaron las tareas externas anteriormente
+            const yaImportadas = localStorage.getItem("tareasExternasImportadas");
 
-        // Validación: ¿El servidor respondió bien?
-        if (!respuesta.ok) throw new Error("No se pudo conectar con el servidor de tareas");
-        
-        // Convertimos la respuesta a JSON
-        const usuarios = await respuesta.json();
+            // Si la bandera está activa PERO no hay tareas, resetear la bandera
+            if (yaImportadas === "true" && this.tareas.length === 0) {
+                console.log("⚠️ Bandera activa pero sin tareas. Reseteando...");
+                localStorage.removeItem("tareasExternasImportadas");
+            }
 
-        // Procesamos cada usuario
-        usuarios.forEach(usuario => {
-            // Control de duplicados
-            const existe = this.tareas.some(t => t.id === usuario.id);
+            // Si ya se importaron Y hay tareas, no volver a importar
+            if (yaImportadas === "true" && this.tareas.length > 0) {
+                console.log("✅ Tareas externas ya fueron importadas anteriormente");
+                return false; // No volvemos a importar
+            }
 
-            // Si no existe, lo agregamos
-            if (!existe) {
+            // Petición GET (fetch devuelve una promesa)
+            // Limit=5 para no sobrecargar la API
+            const respuesta = await fetch('https://jsonplaceholder.typicode.com/users?_limit=5');
+
+            // Validación: ¿El servidor respondió bien?
+            if (!respuesta.ok) throw new Error("No se pudo conectar con el servidor de tareas");
+
+            // Convertimos la respuesta a JSON
+            const usuarios = await respuesta.json();
+
+            // Procesamos cada usuario
+            usuarios.forEach(usuario => {
                 // Personalización de nombres
                 const nuevaTarea = new Tarea(
-                    `📞 Llamar a ${usuario.name}`, 
-                        `Ciudad: ${usuario.address.city} | User: ${usuario.username}`,
-                        usuario.id //
+                    `📞 Llamar a ${usuario.name}`,
+                    `Ciudad: ${usuario.address.city} | User: ${usuario.username}`,
+                    usuario.id
                 );
 
                 this.tareas.push(nuevaTarea);
-            }
+            });
 
-        });
+            this.guardar(); // Guardamos cambios
 
-        this.guardar(); // Guardamos cambios
-        return true;
+            // Marcamos que ya se importaron las tareas externas
+            localStorage.setItem("tareasExternasImportadas", "true");
+            console.log("✅ Tareas externas importadas por primera vez");
 
-    } catch (error) {
-        console.error(error);
-        throw error; // Re-lanzamos el error que main.js lo capture
+            return true;
+
+        } catch (error) {
+            console.error(error);
+            throw error; // Re-lanzamos el error que main.js lo capture
+        }
     }
-}
 
 }
