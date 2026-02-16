@@ -265,8 +265,11 @@ button[type="submit"]:hover {
 .task-dates {
     display: flex;
     flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
     gap: 10px;
     margin-top: 10px;
+    margin-bottom: 15px;
     flex-wrap: wrap;
 }
 
@@ -301,17 +304,17 @@ button[type="submit"]:hover {
 
 .card-actions {
     display: flex;
+    justify-content: space-between;
     gap: 10px;
     border-top: 1px solid var(--glass-border);
     padding-top: 12px;
-    margin: 0 -20px -20px -20px;
-    /* Compensar el padding del card */
-    padding: 12px 20px 0 20px;
+    padding-bottom: 12px;
+    margin-top: 12px;
 }
 
 .btn-action {
     flex: 1;
-    padding: 10px 12px;
+    padding: 10px 16px;
     border: none;
     border-radius: 6px;
     cursor: pointer;
@@ -319,6 +322,12 @@ button[type="submit"]:hover {
     font-weight: 600;
     transition: all 0.3s;
     color: #ffffff;
+
+    /* Flexbox para centrar texto */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
 }
 
 .btn-estado {

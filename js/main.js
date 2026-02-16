@@ -113,7 +113,6 @@ function crearTarjetaTarea(tarea) {
         <div class="card-actions">
           <button class="btn-action btn-estado" title="Cambiar Estado">${tarea.estado === "pendiente" ? "✅Terminar" : "↺ Reabrir"}</button>
           <button class="btn-action btn-eliminar" title="Eliminar Tarea">🗑️</button>
-          <span class="status-badge ${tarea.estado}"></span>
       </div>`;
 
   //Si la tarea está completada, le añadimos una clase virtual (CSS)
