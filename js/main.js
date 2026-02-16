@@ -7,7 +7,8 @@ import { GestorTareas } from "./classes/GestorTareas.js";
 //Capturamos los elementos del HTML usando los IDs
 
 const formulario = document.querySelector("#form-tarea");
-const listaTareas = document.querySelector("#lista-tareas");
+const listaTareasPendientes = document.querySelector("#lista-tareas-pendientes");
+const listaTareasCompletadas = document.querySelector("#lista-tareas-completadas");
 const inputTitulo = document.querySelector("#input-titulo");
 const inputDescripcion = document.querySelector("#input-descripcion");
 
@@ -51,17 +52,35 @@ formulario.addEventListener("submit", (event) => {
 //==========================================
 
 function renderizarTareas() {
-  // Limpiamos la lista de tareas
-  listaTareas.innerHTML = "";
+  // Limpiamos ambas listas
+  listaTareasPendientes.innerHTML = "";
+  listaTareasCompletadas.innerHTML = "";
 
-  // Recorremos las tareas
-  gestor.tareas.forEach((tarea) => {
-    // Creamos el contenedor de la tarjeta (<li>)
-    const item = document.createElement("li");
-    item.id = tarea.id; //Guardamos el ID para usarlo luego (borrar/editar)
-    item.className = "task-card";
+  // Separamos las tareas por estado
+  const tareasPendientes = gestor.tareas.filter(t => t.estado === "pendiente");
+  const tareasCompletadas = gestor.tareas.filter(t => t.estado === "completada");
 
-    item.innerHTML = `<div class="card-header">
+  // Renderizamos tareas pendientes
+  tareasPendientes.forEach((tarea) => {
+    const item = crearTarjetaTarea(tarea);
+    listaTareasPendientes.appendChild(item);
+  });
+
+  // Renderizamos tareas completadas
+  tareasCompletadas.forEach((tarea) => {
+    const item = crearTarjetaTarea(tarea);
+    listaTareasCompletadas.appendChild(item);
+  });
+}
+
+// Función auxiliar para crear una tarjeta de tarea
+function crearTarjetaTarea(tarea) {
+  // Creamos el contenedor de la tarjeta (<li>)
+  const item = document.createElement("li");
+  item.id = tarea.id; //Guardamos el ID para usarlo luego (borrar/editar)
+  item.className = "task-card";
+
+  item.innerHTML = `<div class="card-header">
         <h3>${tarea.titulo}</h3><span class="status-badge ${tarea.estado}">
             ${tarea.estado === "completada" ? "Completada" : "Pendiente"}
           </span>
@@ -76,38 +95,40 @@ function renderizarTareas() {
           <span class="status-badge ${tarea.estado}"></span>
       </div>`;
 
-    //Si la tarea está completada, le añadimos una clase virtual (CSS)
-    if (tarea.estado === "completada") item.classList.add("completada");
+  //Si la tarea está completada, le añadimos una clase virtual (CSS)
+  if (tarea.estado === "completada") item.classList.add("completada");
 
-    //Agregamos la tarjeta a la lista principal
-    listaTareas.appendChild(item);
-  });
+  return item;
 }
 
 //==========================================
-// LISTA TAREAS (Listener)
+// LISTA TAREAS (Listeners para ambas listas)
 //==========================================
 
-//
-listaTareas.addEventListener("click", (event) => {
+// Función auxiliar para manejar clics en las tarjetas
+function manejarClicTarea(event) {
   // Buscamos el elemento padre con la clase 'task-card' (LI)
   const card = event.target.closest(".task-card");
 
   if (!card) return; // Si el clic fue fuera de una tarjeta, ignoramos
-  const idTarea = Number(card.id)
+  const idTarea = Number(card.id);
 
-  // Verificamos si el clic fue en el botón de eliminar o en un hijo suyo (icono)
+  // Verificamos si el clic fue en el botón de eliminar
   if (event.target.closest(".btn-eliminar")) {
     gestor.eliminarTarea(idTarea);
     renderizarTareas();
   }
 
-  // Lo mismo para el estado
+  // Verificamos si el clic fue en el botón de estado
   if (event.target.closest(".btn-estado")) {
     gestor.alternarTarea(idTarea);
-    renderizarTareas();
+    renderizarTareas(); // Re-renderiza y mueve la tarea a la lista correspondiente
   }
-});
+}
+
+// Agregamos listeners a ambas listas
+listaTareasPendientes.addEventListener("click", manejarClicTarea);
+listaTareasCompletadas.addEventListener("click", manejarClicTarea);
 
 //==========================================
 // FUNCIÓN ASÍNCRONICA PARA MANEJAR CARGA INICIAL
