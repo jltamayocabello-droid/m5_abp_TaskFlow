@@ -106,6 +106,9 @@ async obtenerTareasExternas() {
         // Transformamos a nuestra clase Tarea (titulo, estado)
         const tareasNuevas = datosJSON.map(item => {
             const t = new Tarea(item.title, "Tarea importada desde API externa");
+            // Sobreescribimos el ID que genera el constructor por el ID único que viene del servidor
+            t.id = item.id;
+            
             if (item.completed) t.cambiarEstado(); // Si la API dice que está lista, la marcamos
             return t;
         });
