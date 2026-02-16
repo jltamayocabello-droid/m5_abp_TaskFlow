@@ -1,42 +1,93 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Proyecto Final M5: TaskFlow - Gestión de Tareas</title>
 
     <script type="module" src="./js/main.js"></script>
-    <link rel="stylesheet" href="./assets/css/styles.css">
-</head>
+    <link rel="stylesheet" href="./assets/css/styles.css" />
+  </head>
 
-<body>
-
+  <body>
     <header>
-        <h1>TaskFlow</h1>
+      <h1>TaskFlow</h1>
     </header>
 
     <main id="app">
-        
-        <section class="crear-tarea">
-            <h2>Nueva Tarea</h2>
-            <form id="form-tarea">
-                <input type="text" id="input-titulo" placeholder="Título de la tarea" required>
-                <input type="text" id="input-descripcion" placeholder="Descripción (opcional)">
-                <button type="submit">Agregar Nueva Tarea</button>
-            </form>
-        </section>
+      <section class="crear-tarea">
+        <h2>Nueva Tarea</h2>
+        <form id="form-tarea">
+          <input
+            type="text"
+            id="input-titulo"
+            placeholder="Título de la tarea"
+            required
+          />
+          <input
+            type="text"
+            id="input-descripcion"
+            placeholder="Descripción (opcional)"
+          />
+          <button type="submit">Agregar Nueva Tarea</button>
+        </form>
+      </section>
 
-        <section class="lista-tareas">
-            <h2>Mis Tareas</h2>
-            <ul id="lista-tareas">
-            </ul>
-        </section>
+      <section class="lista-tareas">
+        <h2>Mis Tareas</h2>
+        <ul id="lista-tareas"></ul>
+      </section>
 
+      <-- CHECKLIST -->
+      <!-- From Uiverse.io by naufal_3198 -->
+      <div class="checklist-container">
+        <div class="checklist-title">Daily Task List</div>
 
+        <div class="checklist-item">
+          <input type="checkbox" id="tugas1" class="checklist-checkbox" />
+          <label for="tugas1" class="checklist-label">
+            Complete project A report</label
+          >
+        </div>
 
+        <div class="checklist-item">
+          <input type="checkbox" id="tugas2" class="checklist-checkbox" />
+          <label for="tugas2" class="checklist-label"
+            >Reply to email from client B</label
+          >
+        </div>
 
+        <div class="checklist-item">
+          <input
+            type="checkbox"
+            id="tugas3"
+            checked=""
+            class="checklist-checkbox"
+          />
+          <label for="tugas3" class="checklist-label"
+            >Schedule weekly team meeting</label
+          >
+        </div>
+
+        <div class="checklist-item">
+          <input
+            type="checkbox"
+            id="tugas4"
+            checked=""
+            class="checklist-checkbox"
+          />
+          <label for="tugas4" class="checklist-label"
+            >Buy groceries for dinner</label
+          >
+        </div>
+
+        <div class="checklist-item">
+          <input type="checkbox" id="tugas5" class="checklist-checkbox" />
+          <label for="tugas5" class="checklist-label"
+            >Exercise for 30 minutes</label
+          >
+        </div>
+      </div>
     </main>
-
-  
-</body>
+  </body>
 </html>
