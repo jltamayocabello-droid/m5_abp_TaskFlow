@@ -7,8 +7,13 @@ export class GestorTareas {
         // Si hay datos, usamos esos, si no, usamos un array vacio
         // Mapeamos para que vuelvan a ser objetos de Tarea
         this.tareas = tareasGuardadas ? tareasGuardadas.map(tarea => {
-            // Pasamos titulo, descripcion e ID original al constructor
-            const tareaRecuperada = new Tarea(tarea.titulo, tarea.descripcion, tarea.id);
+            // Pasamos titulo, descripcion, ID original y fechaVencimiento al constructor
+            const tareaRecuperada = new Tarea(
+                tarea.titulo,
+                tarea.descripcion,
+                tarea.id,
+                tarea.fechaVencimiento // Recuperamos la fecha de vencimiento
+            );
 
             // Restauramos los datos antiguos
             tareaRecuperada.estado = tarea.estado; // Recuperamos el estado original
@@ -20,9 +25,9 @@ export class GestorTareas {
     }
 
     // Método para agregar una tarea
-    agregarTarea(titulo, descripcion) {
+    agregarTarea(titulo, descripcion, fechaVencimiento = null) {
         // Crear una nueva tarea
-        const nuevaTarea = new Tarea(titulo, descripcion);
+        const nuevaTarea = new Tarea(titulo, descripcion, Date.now(), fechaVencimiento);
 
         this.tareas.push(nuevaTarea); // Guardar una nueva tarea
         this.guardar(); // Guardamos cambios
@@ -85,13 +90,46 @@ export class GestorTareas {
             // Convertimos la respuesta a JSON
             const usuarios = await respuesta.json();
 
-            // Procesamos cada usuario
-            usuarios.forEach(usuario => {
-                // Personalización de nombres
+            // Array de plantillas de tareas variadas
+            const plantillasTareas = [
+                {
+                    titulo: (nombre) => `📞 Llamar a ${nombre}`,
+                    descripcion: (user) => `Teléfono: ${user.phone} | Ciudad: ${user.address.city}`
+                },
+                {
+                    titulo: (nombre) => `🏥 Cita al médico con ${nombre}`,
+                    descripcion: (user) => `Dirección: ${user.address.street} | Email: ${user.email}`
+                },
+                {
+                    titulo: (nombre) => `🎾 ${nombre} jugará conmigo tenis`,
+                    descripcion: (user) => `Empresa: ${user.company.name} | Ciudad: ${user.address.city}`
+                },
+                {
+                    titulo: (nombre) => `☕ Reunión de café con ${nombre}`,
+                    descripcion: (user) => `Website: ${user.website} | User: ${user.username}`
+                },
+                {
+                    titulo: (nombre) => `� Enviar email a ${nombre}`,
+                    descripcion: (user) => `Email: ${user.email} | Empresa: ${user.company.name}`
+                }
+            ];
+
+            // Procesamos cada usuario con una plantilla diferente
+            usuarios.forEach((usuario, index) => {
+                // Usamos el índice para asignar una plantilla diferente a cada usuario
+                const plantilla = plantillasTareas[index % plantillasTareas.length];
+
+                // Generar fecha de vencimiento aleatoria (entre 1 y 10 días en el futuro)
+                const diasAleatorios = Math.floor(Math.random() * 10) + 1;
+                const fechaVencimiento = new Date();
+                fechaVencimiento.setDate(fechaVencimiento.getDate() + diasAleatorios);
+                const fechaVencimientoStr = fechaVencimiento.toISOString().split('T')[0]; // Formato YYYY-MM-DD
+
                 const nuevaTarea = new Tarea(
-                    `📞 Llamar a ${usuario.name}`,
-                    `Ciudad: ${usuario.address.city} | User: ${usuario.username}`,
-                    usuario.id
+                    plantilla.titulo(usuario.name),
+                    plantilla.descripcion(usuario),
+                    usuario.id,
+                    fechaVencimientoStr // Agregamos fecha de vencimiento
                 );
 
                 this.tareas.push(nuevaTarea);

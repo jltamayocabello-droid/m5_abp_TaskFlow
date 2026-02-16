@@ -11,6 +11,7 @@ const listaTareasPendientes = document.querySelector("#lista-tareas-pendientes")
 const listaTareasCompletadas = document.querySelector("#lista-tareas-completadas");
 const inputTitulo = document.querySelector("#input-titulo");
 const inputDescripcion = document.querySelector("#input-descripcion");
+const inputFecha = document.querySelector("#input-fecha");
 
 //==========================================
 // GESTOR DE TAREAS
@@ -31,11 +32,12 @@ formulario.addEventListener("submit", (event) => {
   // Validamos que haya texto en el input
   const titulo = inputTitulo.value.trim();
   const descripcion = inputDescripcion.value.trim();
+  const fechaVencimiento = inputFecha.value || null; // Capturamos la fecha (puede ser null)
 
   if (titulo === "") return; //Si está vacío no hace nada
 
-  // Crear tarea usando GESTOR
-  const nuevaTarea = gestor.agregarTarea(titulo, descripcion);
+  // Crear tarea usando GESTOR con fecha de vencimiento
+  const nuevaTarea = gestor.agregarTarea(titulo, descripcion, fechaVencimiento);
 
   //Pintar datos
   renderizarTareas();
@@ -80,6 +82,22 @@ function crearTarjetaTarea(tarea) {
   item.id = tarea.id; //Guardamos el ID para usarlo luego (borrar/editar)
   item.className = "task-card";
 
+  // Verificar si la tarea tiene fecha de vencimiento y si está vencida
+  let fechaVencimientoHTML = '';
+  let claseVencida = '';
+
+  if (tarea.fechaVencimiento) {
+    const fechaVenc = new Date(tarea.fechaVencimiento);
+    const hoy = new Date();
+    hoy.setHours(0, 0, 0, 0); // Resetear horas para comparar solo fechas
+
+    const esVencida = fechaVenc < hoy && tarea.estado === 'pendiente';
+    claseVencida = esVencida ? 'vencida' : '';
+
+    const icono = esVencida ? '⚠️' : '⏰';
+    fechaVencimientoHTML = `<small class="due-date ${claseVencida}">${icono} Vence: ${fechaVenc.toLocaleDateString('es-ES')}</small>`;
+  }
+
   item.innerHTML = `<div class="card-header">
         <h3>${tarea.titulo}</h3><span class="status-badge ${tarea.estado}">
             ${tarea.estado === "completada" ? "Completada" : "Pendiente"}
@@ -87,7 +105,10 @@ function crearTarjetaTarea(tarea) {
         </div>
         <div class="card-body">
           <p>${tarea.descripcion || "<em>Sin detalles adicionales</em>"}</p>
-          <small class="date-text">📅${new Date(tarea.fechaCreacion).toLocaleString()}</small>
+          <div class="task-dates">
+            <small class="date-text">📅 Creada: ${new Date(tarea.fechaCreacion).toLocaleDateString('es-ES')}</small>
+            ${fechaVencimientoHTML}
+          </div>
         </div>
         <div class="card-actions">
           <button class="btn-action btn-estado" title="Cambiar Estado">${tarea.estado === "pendiente" ? "✅Terminar" : "↺ Reabrir"}</button>
@@ -97,6 +118,9 @@ function crearTarjetaTarea(tarea) {
 
   //Si la tarea está completada, le añadimos una clase virtual (CSS)
   if (tarea.estado === "completada") item.classList.add("completada");
+
+  // Si la tarea está vencida, añadimos clase
+  if (claseVencida) item.classList.add(claseVencida);
 
   return item;
 }

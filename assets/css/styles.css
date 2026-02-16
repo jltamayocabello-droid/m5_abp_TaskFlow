@@ -122,7 +122,8 @@ header #theme-toggle:hover {
     /* Para que el padding se incluya en el ancho total */
 }
 
-input[type="text"] {
+input[type="text"],
+input[type="date"] {
     width: 100%;
     padding: 12px;
     margin-bottom: 10px;
@@ -142,7 +143,8 @@ input[type="text"]::placeholder {
     /* Placeholder también visible */
 }
 
-input[type="text"]:focus {
+input[type="text"]:focus,
+input[type="date"]:focus {
     background: rgba(255, 255, 255, 0.9);
     transform: scale(1.02);
     color: #2d1b4e;
@@ -260,12 +262,41 @@ button[type="submit"]:hover {
     line-height: 1.4;
 }
 
+.task-dates {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    margin-top: 10px;
+    flex-wrap: wrap;
+}
+
 .date-text {
-    display: block;
     font-size: 0.75rem;
-    opacity: 0.7;
-    margin-top: 5px;
-    margin-bottom: 15px;
+    opacity: 0.8;
+    color: var(--text-main);
+}
+
+.due-date {
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 4px 8px;
+    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.25);
+    color: #ffffff;
+    display: inline-block;
+    width: fit-content;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.due-date.vencida {
+    background: rgba(255, 71, 87, 0.3);
+    color: #ffffff;
+    font-weight: 700;
+    border: 1px solid rgba(255, 71, 87, 0.5);
+}
+
+.task-card.vencida {
+    border-left: 4px solid #ff4757;
 }
 
 .card-actions {
@@ -273,28 +304,41 @@ button[type="submit"]:hover {
     gap: 10px;
     border-top: 1px solid var(--glass-border);
     padding-top: 12px;
+    margin: 0 -20px -20px -20px;
+    /* Compensar el padding del card */
+    padding: 12px 20px 0 20px;
 }
 
 .btn-action {
     flex: 1;
-    padding: 8px;
+    padding: 10px 12px;
     border: none;
     border-radius: 6px;
     cursor: pointer;
     font-size: 0.9rem;
-    transition: background 0.2s;
-    background: transparent;
-    /* Botones ghost */
-    color: var(--text-main);
-    border: 1px solid var(--glass-border);
+    font-weight: 600;
+    transition: all 0.3s;
+    color: #ffffff;
 }
 
-.btn-action:hover {
-    background: rgba(255, 255, 255, 0.2);
+.btn-estado {
+    background: linear-gradient(147deg, #ff7c34 0%, #c31269 74%);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.btn-estado:hover {
+    background: linear-gradient(147deg, #ff8c44 0%, #d32279 74%);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(255, 124, 52, 0.4);
+}
+
+.btn-eliminar {
+    background: linear-gradient(147deg, #ff7c34 0%, #c31269 74%);
+    border: 1px solid rgba(255, 255, 255, 0.3);
 }
 
 .btn-eliminar:hover {
-    background: rgba(255, 71, 87, 0.2);
-    color: #ff4757;
-    border-color: #ff4757;
+    background: linear-gradient(147deg, #ff8c44 0%, #d32279 74%);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(255, 124, 52, 0.4);
 }
