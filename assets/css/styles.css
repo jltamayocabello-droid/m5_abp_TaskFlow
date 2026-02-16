@@ -2,41 +2,44 @@
    1. VARIABLES Y TEMAS (La magia del color)
    ========================================= */
 :root {
-    /* --- TEMA CLARO (Por defecto) --- */
-    --bg-gradient: linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%);
-    --glass-bg: rgba(255, 255, 255, 0.65);
-    /* Opacidad blanca */
-    --glass-border: rgba(255, 255, 255, 0.8);
-    --text-main: #2d3436;
-    --text-muted: #636e72;
-    --shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+    /* --- TEMA CLARO (Paleta vibrante morado-naranja) --- */
+    --bg-gradient: linear-gradient(-225deg, #231557 0%, #44107A 29%, #FF1361 67%, #fa9b48 100%);
+    --glass-bg: rgba(107, 14, 121, 0.25);
+    /* Morado translúcido */
+    --glass-border: rgba(255, 255, 255, 0.2);
+    --text-main: #ffffff;
+    --text-muted: #e0d4f7;
+    --shadow: 0px 7px 46px 0px rgba(41, 53, 108, 0.45);
 
     /* Colores de Estado */
-    --color-pendiente: #d63031;
-    /* Rojo suave */
-    --bg-pendiente: rgba(214, 48, 49, 0.1);
-    --color-completada: #00b894;
-    /* Verde menta */
-    --bg-completada: rgba(0, 184, 148, 0.1);
+    --color-pendiente: #ff7c34;
+    /* Naranja */
+    --bg-pendiente: rgba(255, 124, 52, 0.2);
+    --color-completada: #fa9b48;
+    /* Naranja claro */
+    --bg-completada: rgba(250, 155, 72, 0.2);
 
     /* Botones */
-    --btn-primary: #6c5ce7;
+    --btn-primary: linear-gradient(147deg, #ff7c34 0%, #c31269 74%);
     --btn-text: #ffffff;
+
+    /* Contenedores */
+    --container-gradient: linear-gradient(147deg, #6e0777 0%, #380c70 74%);
 }
 
-/* --- TEMA OSCURO (Se activa con data-theme="dark") --- */
+/* --- TEMA OSCURO --- */
 [data-theme="dark"] {
-    --bg-gradient: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
-    --glass-bg: rgba(16, 22, 36, 0.75);
-    /* Opacidad oscura */
+    --bg-gradient: linear-gradient(-225deg, #0a0118 0%, #1a0329 29%, #8a0a2e 67%, #7d4e24 100%);
+    --glass-bg: rgba(16, 22, 36, 0.4);
     --glass-border: rgba(255, 255, 255, 0.1);
-    --text-main: #dfe6e9;
-    --text-muted: #b2bec3;
-    --shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+    --text-main: #ffffff;
+    --text-muted: #c9b8e0;
+    --shadow: 0px 7px 46px 0px rgba(0, 0, 0, 0.6);
 
     /* Ajuste de colores para fondo oscuro */
-    --color-pendiente: #ff7675;
-    --color-completada: #55efc4;
+    --color-pendiente: #ff9966;
+    --color-completada: #ffb380;
+    --container-gradient: linear-gradient(147deg, #4a0550 0%, #1f0640 74%);
 }
 
 /* =========================================
@@ -68,14 +71,14 @@ h3 {
    HEADER
    ========================================= */
 header {
-    width: 100%;
-    max-width: 540px;
-    /* Mismo ancho que .crear-tarea (500px + 20px padding x2) */
+    width: 90%;
+    max-width: 500px;
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 20px;
-    margin-top: 20px;
+    margin: 20px auto 0;
+    box-sizing: border-box;
 }
 
 header h1 {
@@ -104,17 +107,19 @@ header #theme-toggle:hover {
    3. FORMULARIO Y INPUTS (Glass Style)
    ========================================= */
 .crear-tarea {
-    background: var(--glass-bg);
+    background: var(--container-gradient);
     backdrop-filter: blur(12px);
     /* EFECTO VIDRIO */
     -webkit-backdrop-filter: blur(12px);
     border: 1px solid var(--glass-border);
     border-radius: 16px;
     padding: 20px;
-    margin: 30px 20px;
+    margin: 30px auto;
     width: 90%;
     max-width: 500px;
     box-shadow: var(--shadow);
+    box-sizing: border-box;
+    /* Para que el padding se incluya en el ancho total */
 }
 
 input[type="text"] {
@@ -140,6 +145,7 @@ button[type="submit"] {
     width: 100%;
     padding: 12px;
     background: var(--btn-primary);
+    border: none;
     color: var(--btn-text);
     border: none;
     border-radius: 8px;
@@ -156,19 +162,39 @@ button[type="submit"]:hover {
 /* =========================================
    4. LISTA Y TARJETAS (Glass Cards)
    ========================================= */
+
+/* Contenedor de la sección lista-tareas */
+.lista-tareas {
+    background: var(--container-gradient);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--glass-border);
+    border-radius: 16px;
+    padding: 20px;
+    margin: 30px auto;
+    width: 90%;
+    max-width: 500px;
+    box-shadow: var(--shadow);
+    box-sizing: border-box;
+}
+
+.lista-tareas h2 {
+    margin-top: 0;
+    margin-bottom: 20px;
+    font-size: 1.5rem;
+}
+
 #lista-tareas {
     list-style: none;
     padding: 0;
-    width: 90%;
-    max-width: 500px;
+    margin: 0;
     display: flex;
     flex-direction: column;
     gap: 15px;
-    padding-bottom: 50px;
 }
 
 .task-card {
-    background: var(--glass-bg);
+    background: linear-gradient(147deg, #ff7c34 0%, #c31269 74%);
     backdrop-filter: blur(8px);
     border: 1px solid var(--glass-border);
     border-radius: 12px;
@@ -181,8 +207,8 @@ button[type="submit"]:hover {
 
 .task-card:hover {
     transform: translateY(-5px);
-    background: var(--glass-bg);
-    /* Mantiene el color pero refresca */
+    background: linear-gradient(147deg, #ff8c44 0%, #d32279 74%);
+    /* Versión más brillante del gradiente */
 }
 
 /* Header de la tarjeta */
