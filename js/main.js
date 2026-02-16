@@ -62,10 +62,9 @@ function renderizarTareas() {
     item.className = "task-card";
 
     item.innerHTML = `<div class="card-header">
-          <span class="status-badge ${tarea.estado}">
-            ${tarea.estado === "completada" ? "Completada" : "Pendiente"}{" "}
+        <h3>${tarea.titulo}</h3><span class="status-badge ${tarea.estado}">
+            ${tarea.estado === "completada" ? "Completada" : "Pendiente"}
           </span>
-          <h3>${tarea.titulo}</h3>
         </div>
         <div class="card-body">
           <p>${tarea.descripcion || "<em>Sin detalles adicionales</em>"}</p>
@@ -74,7 +73,7 @@ function renderizarTareas() {
         <div class="card-actions">
           <button class="btn-action btn-estado" title="Cambiar Estado">${tarea.estado === "pendiente" ? "✅Terminar" : "↺ Reabrir"}</button>
           <button class="btn-action btn-eliminar" title="Eliminar Tarea">🗑️</button>
-          <span class="status-badge ${tarea.estado}">...</span>
+          <span class="status-badge ${tarea.estado}"></span>
       </div>`;
 
     //Si la tarea está completada, le añadimos una clase virtual (CSS)
