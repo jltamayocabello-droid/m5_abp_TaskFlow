@@ -19,27 +19,25 @@ export class GestorTareas {
         // Crear una nueva tarea
         const nuevaTarea = new Tarea(titulo, descripcion);
 
-        // Guardar una nueva tarea
-        this.tareas.push(nuevaTarea);
-
-
+        this.tareas.push(nuevaTarea); // Guardar una nueva tarea
         this.guardar(); // Guardamos cambios
 
-        //Retornamos la tarea recién creada
-        return nuevaTarea;
+        return nuevaTarea; //Retornamos la tarea recién creada
     }
 
     // Método para eliminar una tarea
     eliminarTarea(Id){
+        const idNumerico = Number(Id)
         // Sobreescribimos el array filtrando todos los que No tengan ese ID
-        this.tareas = this.tareas.filter(tarea => tarea.id !== Id);
+        this.tareas = this.tareas.filter(tarea => tarea.id !== idNumerico);
         this.guardar(); // Guardamos cambios
     }
 
     // Método para alternar el estado de una tarea
     alternarTarea(Id) {
+        const idNumerico = Number(Id)
         // Buscamos la tarea especifica
-        const tarea = this.tareas.find(tarea => tarea.id === Id);
+        const tarea = this.tareas.find(tarea => tarea.id === idNumerico);
         if (tarea) {
             tarea.cambiarEstado();
             this.guardar(); // Guardamos cambios
@@ -52,39 +50,6 @@ export class GestorTareas {
     }
 
 //==========================================
-// Método para simular una carga de datos externa
-//==========================================
-cargarTareasFalsas() {
-    //Retornamos una nueva promesa 
-    
-    return new Promise((resolve, reject) => {
-        console.log("Cargando tareas falsas");
-
-        //Usamos setTimeour para simular el retraso de 2 segundos
-        setTimeout(() => {
-
-        //Simulamos que todo salio bien
-        const exito = true;
-
-        if (exito) {
-            // Datos ficticios que llegaron del servidor
-            const tareasSimuladas = [
-                {id: 1, titulo: "Tarea Servidor 1", descripcion: "Descripción Servidor 1", estado: "pendiente"},
-                {id: 2, titulo: "Tarea Servidor 2", descripcion: "Descripción Servidor 2", estado: "completada"},
-            ];
-
-            // Resolvemos la promesa entregando los datos
-            resolve(tareasSimuladas);
-        } else {
-            // Resolvemos la promesa con un error
-            reject("Hubo un error al cargar las tareas");
-        }
-        }, 2000); // 2 segundos);
-    });
-
-}
-
-//==========================================
 // OBTENER LOS DATOS DE LA API
 //==========================================
 
@@ -92,35 +57,42 @@ async obtenerTareasExternas() {
     try {
         // Petición GET (fetch devuelve una promesa)
         // Limit=5 para no sobrecargar la API
-        const respuesta = await fetch('https://jsonplaceholder.typicode.com/todos?_limit=5');
+        const respuesta = await fetch('https://jsonplaceholder.typicode.com/users');
 
         // Validación: ¿El servidor respondió bien?
-        if (!respuesta.ok) {
-            throw new Error("No se pudo conectar con el servidor de tareas");
-        }
-
+        if (!respuesta.ok) throw new Error("No se pudo conectar con el servidor de tareas");
+        
         // Convertimos la respuesta a JSON
-        const datosJSON = await respuesta.json();
+        const usuarios = await respuesta.json();
 
-        // Adaptación (La API usa title y completed)
-        // Transformamos a nuestra clase Tarea (titulo, estado)
-        const tareasNuevas = datosJSON.map(item => {
-            const t = new Tarea(item.title, "Tarea importada desde API externa");
-            // Sobreescribimos el ID que genera el constructor por el ID único que viene del servidor
-            t.id = item.id;
-            
-            if (item.completed) t.cambiarEstado(); // Si la API dice que está lista, la marcamos
-            return t;
+        // Procesamos cada usuario
+        usuarios.forEach(usuario => {
+            // Control de duplicados
+            const existe = this.tareas.some(t => t.id === usuario.id);
+
+            // Si no existe, lo agregamos
+            if (!existe) {
+                // Personalización de nombres
+                const nuevaTarea = new Tarea(
+                    `📞 Llamar a ${usuario.name}`, 
+                        `Ciudad: ${usuario.address.city} | User: ${usuario.username}`
+                );
+
+                // Sobreescribimos el ID que genera el constructor por el ID único que viene del servidor
+                nuevaTarea.id = usuario.id;
+
+                this.tareas.push(nuevaTarea);
+            }
+
         });
 
-        // Integración (Las sumamos a nuestras tareas actuales y guardamos)
-        this.tareas = [...this.tareas, ...tareasNuevas];
-        this.guardar();
+        this.guardar(); // Guardamos cambios
+        return true;
 
-        return true; // Indicamos que todo salió bien
     } catch (error) {
         console.error(error);
         throw error; // Re-lanzamos el error que main.js lo capture
     }
 }
+
 }
