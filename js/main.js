@@ -135,19 +135,14 @@ async function iniciarApp() {
 
 
   try {
-    console.log("🌐 Conectando con la API externa...")
-
-    //Llamamos al nuevo método
+    //Llamamos a la API
     await gestor.obtenerTareasExternas();
-
-    console.log("✅ Datos de la API cargados con éxito")
-
-    //Volvemos a marcar con los nuevos datos
-    renderizarTareas();
+    renderizarTareas(); //Volvemos a marcar con los nuevos datos
+    console.log("App lista con datos reales");
 
   } catch (error) {
     //Capturamos el error
-    console.error("Fallo al consumir la API:", error);
+    console.error("Fallo al iniciar:", error);
   }
 
 }
