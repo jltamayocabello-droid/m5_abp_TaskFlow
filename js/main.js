@@ -18,7 +18,6 @@ const inputDescripcion = document.querySelector("#input-descripcion");
 const gestor = new GestorTareas();
 renderizarTareas();
 
-
 //==========================================
 // EVENTOS (La interactividad)
 //==========================================
@@ -57,13 +56,30 @@ function renderizarTareas() {
 
   // Recorremos las tareas
   gestor.tareas.forEach((tarea) => {
-
     // Creamos el contenedor de la tarjeta (<li>)
     const item = document.createElement("li");
     item.id = tarea.id; //Guardamos el ID para usarlo luego (borrar/editar)
+    item.className = "task-card";
+
+    item.innerHTML = `<div class="card-header">
+          <span class="status-badge ${tarea.estado}">
+            ${tarea.estado === "completada" ? "Completada" : "Pendiente"}{" "}
+          </span>
+          <h3>${tarea.titulo}</h3>
+        </div>
+        <div class="card-body">
+          <p>${tarea.descripcion || "<em>Sin detalles adicionales</em>"}</p>
+          <small class="date-text">📅${new Date(tarea.fechaCreacion).toLocaleString()}</small>
+        </div>
+        <div class="card-actions">
+          <button class="btn-action btn-estado" title="Cambiar Estado">${tarea.estado === "pendiente" ? "✅Terminar" : "↺ Reabrir"}</button>
+          <button class="btn-action btn-eliminar" title="Eliminar Tarea">🗑️</button>
+      </div>`;
+
+      listaTareas.appendChild(item);
 
     //Si la tarea está completada, le añadimos una clase virtual (CSS)
-    if (tarea.estado === 'completada') item.classList.add('completada');
+    if (tarea.estado === "completada") item.classList.add("completada");
 
     // Creamos el contenido
     //Título
@@ -87,7 +103,7 @@ function renderizarTareas() {
     //Armamos la tarjeta
     item.appendChild(titulo);
     item.appendChild(descripcion);
-    //Creamos un div para los botones   
+    //Creamos un div para los botones
     const acciones = document.createElement("div");
     acciones.appendChild(btnEstado);
     acciones.appendChild(btnEliminar);
@@ -95,19 +111,15 @@ function renderizarTareas() {
 
     //Agregamos la tarjeta a la lista principal
     listaTareas.appendChild(item);
-  
-
-});
+  });
 }
-
 
 //==========================================
 // LISTA TAREAS (Listener)
 //==========================================
 
-// 
+//
 listaTareas.addEventListener("click", (event) => {
-
   // Capturamos el ID (ID de li más cercano)
   const idTarea = Number(event.target.closest("li").id);
 
@@ -123,8 +135,7 @@ listaTareas.addEventListener("click", (event) => {
     gestor.alternarTarea(idTarea);
     renderizarTareas();
   }
-})
-
+});
 
 //==========================================
 // FUNCIÓN ASÍNCRONICA PARA MANEJAR CARGA INICIAL
@@ -133,18 +144,15 @@ listaTareas.addEventListener("click", (event) => {
 async function iniciarApp() {
   renderizarTareas(); // Marcamos lo que haya en LocalStorage
 
-
   try {
     //Llamamos a la API
     await gestor.obtenerTareasExternas();
     renderizarTareas(); //Volvemos a marcar con los nuevos datos
     console.log("App lista con datos reales");
-
   } catch (error) {
     //Capturamos el error
     console.error("Fallo al iniciar:", error);
   }
-
 }
 
 // Llamamos a la función asíncronica
