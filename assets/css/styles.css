@@ -1,0 +1,233 @@
+/* =========================================
+   1. VARIABLES Y TEMAS (La magia del color)
+   ========================================= */
+:root {
+  /* --- TEMA CLARO (Por defecto) --- */
+  --bg-gradient: linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%);
+  --glass-bg: rgba(255, 255, 255, 0.65); /* Opacidad blanca */
+  --glass-border: rgba(255, 255, 255, 0.8);
+  --text-main: #2d3436;
+  --text-muted: #636e72;
+  --shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+  
+  /* Colores de Estado */
+  --color-pendiente: #d63031; /* Rojo suave */
+  --bg-pendiente: rgba(214, 48, 49, 0.1);
+  --color-completada: #00b894; /* Verde menta */
+  --bg-completada: rgba(0, 184, 148, 0.1);
+  
+  /* Botones */
+  --btn-primary: #6c5ce7;
+  --btn-text: #ffffff;
+}
+
+/* --- TEMA OSCURO (Se activa con data-theme="dark") --- */
+[data-theme="dark"] {
+  --bg-gradient: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
+  --glass-bg: rgba(16, 22, 36, 0.75); /* Opacidad oscura */
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --text-main: #dfe6e9;
+  --text-muted: #b2bec3;
+  --shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+
+  /* Ajuste de colores para fondo oscuro */
+  --color-pendiente: #ff7675; 
+  --color-completada: #55efc4;
+}
+
+/* =========================================
+   2. ESTILOS GLOBALES
+   ========================================= */
+body {
+  background: var(--bg-gradient);
+  background-attachment: fixed; /* El fondo no se mueve al hacer scroll */
+  font-family: 'Poppins', sans-serif; /* Fuente moderna recomendada */
+  color: var(--text-main);
+  min-height: 100vh;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: background 0.5s ease;
+}
+
+h1, h2, h3 {
+  font-weight: 600;
+  letter-spacing: -0.5px;
+}
+
+/* =========================================
+   3. FORMULARIO Y INPUTS (Glass Style)
+   ========================================= */
+.crear-tarea {
+  background: var(--glass-bg);
+  backdrop-filter: blur(12px); /* EFECTO VIDRIO */
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--glass-border);
+  border-radius: 16px;
+  padding: 20px;
+  margin: 30px 20px;
+  width: 90%;
+  max-width: 500px;
+  box-shadow: var(--shadow);
+}
+
+input[type="text"] {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 10px;
+  border: 1px solid rgba(0,0,0,0.1);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.5);
+  color: var(--text-main);
+  outline: none;
+  transition: all 0.3s;
+  box-sizing: border-box; /* Para que el padding no rompa el ancho */
+}
+
+input[type="text"]:focus {
+  background: rgba(255, 255, 255, 0.9);
+  transform: scale(1.02);
+}
+
+button[type="submit"] {
+  width: 100%;
+  padding: 12px;
+  background: var(--btn-primary);
+  color: var(--btn-text);
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: transform 0.2s, filter 0.2s;
+}
+
+button[type="submit"]:hover {
+  filter: brightness(1.1);
+  transform: translateY(-2px);
+}
+
+/* =========================================
+   4. LISTA Y TARJETAS (Glass Cards)
+   ========================================= */
+#lista-tareas {
+  list-style: none;
+  padding: 0;
+  width: 90%;
+  max-width: 500px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  padding-bottom: 50px;
+}
+
+.task-card {
+  background: var(--glass-bg);
+  backdrop-filter: blur(8px);
+  border: 1px solid var(--glass-border);
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: var(--shadow);
+  transition: transform 0.3s ease, background 0.3s;
+  position: relative;
+  overflow: hidden;
+}
+
+.task-card:hover {
+  transform: translateY(-5px);
+  background: var(--glass-bg); /* Mantiene el color pero refresca */
+}
+
+/* Header de la tarjeta */
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.card-header h3 {
+  margin: 0;
+  font-size: 1.1rem;
+}
+
+/* Badges (Etiquetas) */
+.status-badge {
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.badge-pendiente {
+  background: var(--bg-pendiente);
+  color: var(--color-pendiente);
+  border: 1px solid var(--color-pendiente);
+}
+
+.badge-completada {
+  background: var(--bg-completada);
+  color: var(--color-completada);
+  border: 1px solid var(--color-completada);
+}
+
+/* Cuerpo y Acciones */
+.card-body p {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+.date-text {
+  display: block;
+  font-size: 0.75rem;
+  opacity: 0.7;
+  margin-top: 5px;
+  margin-bottom: 15px;
+}
+
+.card-actions {
+  display: flex;
+  gap: 10px;
+  border-top: 1px solid var(--glass-border);
+  padding-top: 12px;
+}
+
+.btn-action {
+  flex: 1;
+  padding: 8px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background 0.2s;
+  background: transparent; /* Botones ghost */
+  color: var(--text-main);
+  border: 1px solid var(--glass-border);
+}
+
+.btn-action:hover {
+  background: rgba(255,255,255,0.2);
+}
+
+.btn-eliminar:hover {
+  background: rgba(255, 71, 87, 0.2);
+  color: #ff4757;
+  border-color: #ff4757;
+}
+
+/* Botón flotante para cambiar tema (Opcional) */
+#theme-toggle {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  padding: 10px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 1.5rem;
+  box-shadow: var(--shadow);
+  z-index: 1000;
+}

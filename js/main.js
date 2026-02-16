@@ -130,3 +130,26 @@ async function iniciarApp() {
 
 // Llamamos a la función asíncronica
 iniciarApp();
+
+//==========================================
+// MODAL 
+//==========================================
+
+// Lógica para el Modo Oscuro
+const btnTema = document.getElementById('theme-toggle');
+const body = document.body;
+
+// Recuperar preferencia del usuario (Manual #1: LocalStorage)
+const temaGuardado = localStorage.getItem('tema');
+if (temaGuardado) {
+    body.setAttribute('data-theme', temaGuardado);
+}
+
+btnTema.addEventListener('click', () => {
+    // Si ya es dark, lo quitamos, si no, lo ponemos
+    const esDark = body.getAttribute('data-theme') === 'dark';
+    const nuevoTema = esDark ? 'light' : 'dark';
+    
+    body.setAttribute('data-theme', nuevoTema);
+    localStorage.setItem('tema', nuevoTema); // Guardar preferencia
+});
