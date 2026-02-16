@@ -131,20 +131,23 @@ listaTareas.addEventListener("click", (event) => {
 //==========================================
 
 async function iniciarApp() {
+  renderizarTareas(); // Marcamos lo que haya en LocalStorage
+
+
   try {
-    // Esperamos a que el gestor termine de cargar las tareas falsas
-    // Mientras esto ocurre, el navegador NO se congela
-    const tareasNuevas = await gestor.cargarTareasFalsas();
-    console.log("Tareas cargadas:", tareasNuevas);
+    console.log("🌐 Conectando con la API externa...")
 
+    //Llamamos al nuevo método
+    await gestor.obtenerTareasExternas();
 
-    // Agregar estas tareas al gestor real y pintar
-    tareasNuevas.forEach(tarea => gestor.agregarTarea(tarea.titulo, tarea.descripcion));
+    console.log("✅ Datos de la API cargados con éxito")
+
+    //Volvemos a marcar con los nuevos datos
     renderizarTareas();
 
   } catch (error) {
-    console.error("Algo salió mal:", error);
-    alert("Error cargando tareas iniciales")
+    //Capturamos el error
+    console.error("Fallo al consumir la API:", error);
   }
 
 }

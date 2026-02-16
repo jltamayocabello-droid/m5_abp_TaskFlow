@@ -51,7 +51,9 @@ export class GestorTareas {
         localStorage.setItem("misTareas", JSON.stringify(this.tareas));
     }
 
+//==========================================
 // Método para simular una carga de datos externa
+//==========================================
 cargarTareasFalsas() {
     //Retornamos una nueva promesa 
     
@@ -80,5 +82,42 @@ cargarTareasFalsas() {
         }, 2000); // 2 segundos);
     });
 
+}
+
+//==========================================
+// OBTENER LOS DATOS DE LA API
+//==========================================
+
+async obtenerTareasExternas() {
+    try {
+        // Petición GET (fetch devuelve una promesa)
+        // Limit=5 para no sobrecargar la API
+        const respuesta = await fetch('https://jsonplaceholder.typicode.com/todos?_limit=5');
+
+        // Validación: ¿El servidor respondió bien?
+        if (!respuesta.ok) {
+            throw new Error("No se pudo conectar con el servidor de tareas");
+        }
+
+        // Convertimos la respuesta a JSON
+        const datosJSON = await respuesta.json();
+
+        // Adaptación (La API usa title y completed)
+        // Transformamos a nuestra clase Tarea (titulo, estado)
+        const tareasNuevas = datosJSON.map(item => {
+            const t = new Tarea(item.title, "Tarea importada desde API externa");
+            if (item.completed) t.cambiarEstado(); // Si la API dice que está lista, la marcamos
+            return t;
+        });
+
+        // Integración (Las sumamos a nuestras tareas actuales y guardamos)
+        this.tareas = [...this.tareas, ...tareasNuevas];
+        this.guardar();
+
+        return true; // Indicamos que todo salió bien
+    } catch (error) {
+        console.error(error);
+        throw error; // Re-lanzamos el error que main.js lo capture
+    }
 }
 }
