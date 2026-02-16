@@ -6,11 +6,16 @@ export class GestorTareas {
         const tareasGuardadas = JSON.parse(localStorage.getItem("misTareas"));
         // Si hay datos, usamos esos, si no, usamos un array vacio
         // Mapeamos para que vuelvan a ser objetos de Tarea
-        this.tareas = tareasGuardadas ? tareasGuardadas.map(tarea => 
-            { const tareaRecuperada = new Tarea(tarea.titulo, tarea.descripcion);
-            tareaRecuperada.id = tarea.id; // Recuperamos el ID original
+        this.tareas = tareasGuardadas ? tareasGuardadas.map(tarea => {
+            // Pasamos titulo, descripcion e ID original al constructor
+            const tareaRecuperada = new Tarea(tarea.titulo, tarea.descripcion, tarea.id);
+
+            // Restauramos los datos antiguos
             tareaRecuperada.estado = tarea.estado; // Recuperamos el estado original
+            tareaRecuperada.fechaCreacion = new Date(tarea.fechaCreacion); // Recuperamos la fecha original 
+
             return tareaRecuperada;
+
     }) : [];
     }
 
@@ -57,7 +62,7 @@ async obtenerTareasExternas() {
     try {
         // Petición GET (fetch devuelve una promesa)
         // Limit=5 para no sobrecargar la API
-        const respuesta = await fetch('https://jsonplaceholder.typicode.com/users');
+        const respuesta = await fetch('https://jsonplaceholder.typicode.com/users?_limit=5');
 
         // Validación: ¿El servidor respondió bien?
         if (!respuesta.ok) throw new Error("No se pudo conectar con el servidor de tareas");
@@ -75,11 +80,9 @@ async obtenerTareasExternas() {
                 // Personalización de nombres
                 const nuevaTarea = new Tarea(
                     `📞 Llamar a ${usuario.name}`, 
-                        `Ciudad: ${usuario.address.city} | User: ${usuario.username}`
+                        `Ciudad: ${usuario.address.city} | User: ${usuario.username}`,
+                        usuario.id //
                 );
-
-                // Sobreescribimos el ID que genera el constructor por el ID único que viene del servidor
-                nuevaTarea.id = usuario.id;
 
                 this.tareas.push(nuevaTarea);
             }

@@ -74,6 +74,7 @@ function renderizarTareas() {
         <div class="card-actions">
           <button class="btn-action btn-estado" title="Cambiar Estado">${tarea.estado === "pendiente" ? "✅Terminar" : "↺ Reabrir"}</button>
           <button class="btn-action btn-eliminar" title="Eliminar Tarea">🗑️</button>
+          <span class="status-badge ${tarea.estado}">...</span>
       </div>`;
 
       listaTareas.appendChild(item);
