@@ -1,5 +1,8 @@
 # 📝 PROYECTO ABP M5: TaskFlow
 
+![Estado del Proyecto](https://img.shields.io/badge/Estado-Finalizado-yellow)
+![Stack](https://img.shields.io/badge/Stack-HTML5_|_CSS_|_JavaScript)
+
 ## 📖 Descripción del Proyecto
 
 **Unidad solicitante:** Departamento de Desarrollo Web
@@ -233,8 +236,9 @@ Para verificar el correcto funcionamiento:
 ## ✒️ Autor
 
 **Jorge Tamayo Cabello**  
-Estudiante de Desarrollo Front-End Trainee - SENCE  
-Módulo 5: Programación Avanzada en JavaScript
+
+*Estudiante de Desarrollo Front-End Trainee - SENCE* 
+
 
 ---
 
