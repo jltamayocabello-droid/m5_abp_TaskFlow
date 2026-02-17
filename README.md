@@ -1,7 +1,7 @@
 # 📝 PROYECTO ABP M5: TaskFlow
 
 ![Estado del Proyecto](https://img.shields.io/badge/Estado-Finalizado-yellow)
-![Stack](https://img.shields.io/badge/Stack-HTML5_|_CSS_|_JavaScript)
+![Stack](https://img.shields.io/badge/Stack-HTML5_%7C_CSS_%7C_JavaScript-blue)
 
 ## 📖 Descripción del Proyecto
 
