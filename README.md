@@ -14,6 +14,7 @@ El equipo de desarrollo ha recibido el encargo de construir una aplicación web 
 Desarrollar una aplicación web interactiva que permita gestionar tareas de manera eficiente utilizando JavaScript moderno. Se implementarán principios de programación orientada a objetos, manipulación del DOM, eventos, asincronía y consumo de APIs para crear una herramienta escalable y funcional.
 
 La aplicación web permite a los usuarios:
+
 - ✅ Crear, editar y eliminar tareas.
 - ✅ Utilizar eventos para mejorar la interactividad.
 - ✅ Manejar datos de manera asincrónica.
@@ -71,6 +72,7 @@ m5_abp_proyecto-final/
 ### 3. Arquitectura de Clases
 
 #### Clase `Tarea` (Modelo)
+
 ```javascript
 class Tarea {
   #id;                          // Campo privado
@@ -81,6 +83,7 @@ class Tarea {
 ```
 
 **Propiedades:**
+
 - `id`: Identificador único (privado)
 - `titulo`: Título de la tarea
 - `descripcion`: Descripción opcional
@@ -88,35 +91,44 @@ class Tarea {
 - `fechaCreacion`: Timestamp de creación
 
 #### Clase `GestorTareas` (Controlador)
+
 ```javascript
 class GestorTareas {
-  constructor()                 // Carga tareas desde localStorage
-  agregarTarea(titulo, desc)    // Crea nueva tarea
-  eliminarTarea(id)             // Elimina tarea por ID
-  alternarTarea(id)             // Cambia estado de tarea
-  guardar()                     // Persiste en localStorage
-  async obtenerTareasExternas() // Consume API externa
+  constructor()                             // Carga tareas desde localStorage
+  agregarTarea(titulo, desc, fechaVenc)     // Crea y persiste nueva tarea
+  eliminarTarea(id)                         // Elimina tarea por ID
+  alternarTarea(id)                         // Cambia estado de tarea
+  guardar()                                 // Persiste en localStorage
+  async obtenerTareasExternas()             // Consume y mapea datos de API
 }
 ```
 
-### 4. Características Implementadas
+### 4. Funcionalidades Principales
 
-#### 🎨 Diseño Moderno
-- **Glassmorphism**: Efectos de vidrio esmerilado con `backdrop-filter`
-- **Gradientes Vibrantes**: Paleta morado-naranja-rosa
-- **Modo Oscuro**: Toggle con persistencia de preferencia
-- **Diseño Responsivo**: Adaptable a móviles y desktop
+#### 📋 Gestión de Tareas (CRUD)
 
-#### 📋 Gestión de Tareas
-- **Separación por Estado**: Secciones independientes para pendientes y completadas
-- **Movimiento Automático**: Las tareas cambian de sección al cambiar estado
-- **CRUD Completo**: Crear, leer, actualizar (estado) y eliminar
-- **Persistencia**: Datos guardados en localStorage
+- **Creación Inteligente**: Formulario con validación y captura de fecha de vencimiento.
+- **Persistencia Robusta**: Uso de `localStorage` para mantener la sesión del usuario.
+- **Movimiento de Estados**: Las tareas se mueven automáticamente entre "Pendientes" y "Completadas".
+- **Eliminación Directa**: Limpieza inmediata tanto del DOM como del almacenamiento local.
 
-#### 🌐 Integración con API
-- **Importación Inicial**: Carga 5 tareas de usuarios desde JSONPlaceholder
-- **Prevención de Duplicados**: Bandera en localStorage evita re-importación
-- **Manejo de Errores**: Try/catch con mensajes informativos
+#### ⏰ Control de Vencimientos
+
+- **Feedback Visual**: Icono de reloj (⏰) para tareas a tiempo y advertencia (⚠️) para vencidas.
+- **Alertas de Tiempo**: Los títulos de tareas vencidas cambian de color para llamar la atención del usuario.
+- **Cálculo Dinámico**: La aplicación verifica la fecha actual vs la fecha límite en cada renderización.
+
+#### 🌐 Integración Asíncrona
+
+- **Consumo de API**: Importación inicial de 5 tareas aleatorias desde JSONPlaceholder.
+- **Mapeo de Datos**: Los datos externos se transforman dinámicamente en objetos de la clase `Tarea`.
+- **Prevención de Duplicados**: Sistema de banderas en `localStorage` para evitar re-importaciones.
+
+#### 🎨 Experiencia de Usuario (UI/UX)
+
+- **Diseño Glassmorphism**: Estética moderna con fondos translúcidos y desenfoque.
+- **Modo Oscuro**: Selector de tema con persistencia de preferencia.
+- **Diseño Adaptable**: Interfaz optimizada para móviles, tablets y escritorio.
 
 ---
 
@@ -125,16 +137,19 @@ class GestorTareas {
 Para visualizar este proyecto:
 
 ### 1. Clonar el repositorio:
+
 ```bash
 git clone https://github.com/jltamayocabello-droid/m5_abp_taskflow.git
 cd m5_abp_taskflow
 ```
 
 ### 2. Abrir en el navegador:
+
 - **Opción A**: Abre el archivo `index.html` directamente en tu navegador.
 - **Opción B**: Usa la extensión **Live Server** de VS Code para desarrollo local.
 
 ### 3. Uso de la aplicación:
+
 1. **Crear tarea**: Completa el formulario y haz clic en "Agregar Nueva Tarea"
 2. **Completar tarea**: Haz clic en "✅ Terminar" en una tarea pendiente
 3. **Reabrir tarea**: Haz clic en "↺ Reabrir" en una tarea completada
@@ -153,41 +168,51 @@ cd m5_abp_taskflow
 ## 💡 Justificación de Decisiones Técnicas
 
 ### Programación Orientada a Objetos
+
 **Decisión**: Separación en clases `Tarea` y `GestorTareas`.
 
 **Justificación**:
+
 - **Separación de responsabilidades**: `Tarea` maneja datos individuales, `GestorTareas` maneja la colección.
 - **Encapsulación**: Campo privado `#id` previene modificaciones accidentales.
 - **Reutilización**: Las clases pueden extenderse fácilmente para nuevas funcionalidades.
 
 ### Módulos ES6
+
 **Decisión**: Uso de `import`/`export` en lugar de scripts globales.
 
 **Justificación**:
+
 - **Namespace limpio**: Evita contaminación del scope global.
 - **Dependencias explícitas**: Fácil identificar qué módulos usa cada archivo.
 - **Optimización**: Los navegadores modernos pueden hacer tree-shaking.
 
 ### LocalStorage vs Base de Datos
+
 **Decisión**: Persistencia con `localStorage`.
 
 **Justificación**:
+
 - **Simplicidad**: No requiere backend ni configuración de servidor.
 - **Rendimiento**: Acceso instantáneo sin latencia de red.
 - **Privacidad**: Los datos permanecen en el dispositivo del usuario.
 
 ### Async/Await vs Promises
+
 **Decisión**: Sintaxis `async/await` para operaciones asíncronas.
 
 **Justificación**:
+
 - **Legibilidad**: Código más limpio y fácil de seguir.
 - **Manejo de errores**: Try/catch más intuitivo que `.catch()`.
 - **Estándar moderno**: Mejor práctica en JavaScript 2024-2025.
 
 ### Separación de Tareas por Estado
+
 **Decisión**: Dos listas independientes (pendientes/completadas).
 
 **Justificación**:
+
 - **UX mejorada**: El usuario ve claramente qué está pendiente y qué está hecho.
 - **Organización visual**: Reduce la carga cognitiva al separar contextos.
 - **Motivación**: Ver tareas completadas genera sensación de progreso.
@@ -196,16 +221,16 @@ cd m5_abp_taskflow
 
 ## 📱 Funcionalidades Destacadas
 
-| Funcionalidad | Descripción |
-|---------------|-------------|
-| 📝 Crear Tareas | Formulario con validación y feedback visual |
+| Funcionalidad       | Descripción                                                |
+| ------------------- | ---------------------------------------------------------- |
+| 📝 Crear Tareas     | Formulario con validación y feedback visual                |
 | ✅ Completar Tareas | Cambio de estado con movimiento automático entre secciones |
-| 🗑️ Eliminar Tareas | Eliminación con actualización inmediata del DOM |
-| 💾 Persistencia | Datos guardados en localStorage |
-| 🌐 API Externa | Importación inicial de tareas desde JSONPlaceholder |
-| 🌓 Modo Oscuro | Toggle con persistencia de preferencia |
-| 📱 Responsive | Adaptable a todos los tamaños de pantalla |
-| 🎨 Glassmorphism | Diseño moderno con efectos de vidrio |
+| 🗑️ Eliminar Tareas  | Eliminación con actualización inmediata del DOM            |
+| 💾 Persistencia     | Datos guardados en localStorage                            |
+| 🌐 API Externa      | Importación inicial de tareas desde JSONPlaceholder        |
+| 🌓 Modo Oscuro      | Toggle con persistencia de preferencia                     |
+| 📱 Responsive       | Adaptable a todos los tamaños de pantalla                  |
+| 🎨 Glassmorphism    | Diseño moderno con efectos de vidrio                       |
 
 ---
 
@@ -235,10 +260,9 @@ Para verificar el correcto funcionamiento:
 
 ## ✒️ Autor
 
-**Jorge Tamayo Cabello**  
+**Jorge Tamayo Cabello**
 
-*Estudiante de Desarrollo Front-End Trainee - SENCE* 
-
+_Estudiante de Desarrollo Front-End Trainee - SENCE_
 
 ---
 
