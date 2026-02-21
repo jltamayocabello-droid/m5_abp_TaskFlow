@@ -1,49 +1,60 @@
 <!doctype html>
 <html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Proyecto Final M5: TaskFlow - Gestión de Tareas</title>
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Proyecto Final M5: TaskFlow - Gestión de Tareas</title>
+    <script type="module" src="./assets/js/main.js"></script>
+    <link rel="stylesheet" href="./assets/css/styles.css" />
+  </head>
 
-  <script type="module" src="./js/main.js"></script>
-  <link rel="stylesheet" href="./assets/css/styles.css" />
-</head>
+  <body>
+    <header>
+      <h1>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          height="48px"
+          viewBox="0 -960 960 960"
+          width="48px"
+          fill="#4B77D1"
+        >
+          <path
+            d="M160-80v-581q0-24.75 17.63-42.38Q195.25-721 220-721h360q24.75 0 42.38 17.62Q640-685.75 640-661v581L400-199 160-80Zm60-97 180-89 180 89v-484H220v484Zm520-62v-582H284v-60h456q24.75 0 42.38 17.62Q800-845.75 800-821v582h-60ZM220-661h360-360Z"
+          /></svg
+        >Lista de Tareas
+      </h1>
+      <button id="theme-toggle">🌓</button>
+    </header>
 
-<body>
-  <header>
-    <h1><svg xmlns="http://www.w3.org/2000/svg" height="48px" viewBox="0 -960 960 960" width="48px" fill="#4B77D1">
-        <path
-          d="M160-80v-581q0-24.75 17.63-42.38Q195.25-721 220-721h360q24.75 0 42.38 17.62Q640-685.75 640-661v581L400-199 160-80Zm60-97 180-89 180 89v-484H220v484Zm520-62v-582H284v-60h456q24.75 0 42.38 17.62Q800-845.75 800-821v582h-60ZM220-661h360-360Z" />
-      </svg>Lista de Tareas</h1>
-    <button id="theme-toggle">🌓</button>
-  </header>
+    <main id="app">
+      <section class="crear-tarea">
+        <form id="form-tarea">
+          <input
+            type="text"
+            id="input-titulo"
+            placeholder="¿Qué tarea necesitas incluir?"
+            required
+          />
+          <input
+            type="text"
+            id="input-descripcion"
+            placeholder="Descripción (opcional)"
+          />
+          <input type="date" id="input-fecha" />
+          <button type="submit">Agregar Nueva Tarea</button>
+        </form>
+      </section>
 
-  <main id="app">
+      <section class="lista-tareas">
+        <h2>📋 Tareas Pendientes</h2>
+        <ul id="lista-tareas-pendientes"></ul>
+      </section>
 
-
-    <section class="crear-tarea">
-
-      <form id="form-tarea">
-        <input type="text" id="input-titulo" placeholder="¿Qué tarea necesitas incluir?" required />
-        <input type="text" id="input-descripcion" placeholder="Descripción (opcional)" />
-        <input type="date" id="input-fecha" />
-        <button type="submit">Agregar Nueva Tarea</button>
-      </form>
-    </section>
-
-    <section class="lista-tareas">
-      <h2>📋 Tareas Pendientes</h2>
-      <ul id="lista-tareas-pendientes"></ul>
-    </section>
-
-    <section class="lista-tareas">
-      <h2>✅ Tareas Completadas</h2>
-      <ul id="lista-tareas-completadas"></ul>
-    </section>
-
-
-  </main>
-</body>
-
+      <section class="lista-tareas">
+        <h2>✅ Tareas Completadas</h2>
+        <ul id="lista-tareas-completadas"></ul>
+      </section>
+    </main>
+  </body>
 </html>

@@ -59,14 +59,13 @@ m5_abp_proyecto-final/
 ├── README.md                  # Documentación del proyecto
 │
 ├── assets/
-│   └── css/
-│       └── styles.css         # Estilos con variables CSS y glassmorphism
-│
-└── js/
-    ├── main.js                # Punto de entrada y lógica principal
-    └── classes/
-        ├── Tarea.js           # Clase modelo de tarea
-        └── GestorTareas.js    # Gestor de colección de tareas
+│   ├── css/
+│   │   └── styles.css         # Estilos con variables CSS y glassmorphism
+│   └── js/
+│       ├── main.js            # Punto de entrada y lógica principal
+│       └── classes/
+│           ├── Tarea.js       # Clase modelo de tarea
+│           └── GestorTareas.js # Gestor de colección de tareas
 ```
 
 ### 3. Arquitectura de Clases
